@@ -7,4 +7,3 @@ require (
 	github.com/gorilla/mux v1.8.1
 )
 
-require google.golang.org/api v0.156.0 // indirect

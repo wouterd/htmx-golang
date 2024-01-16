@@ -16,8 +16,6 @@ type TaskInsert struct {
 }
 
 func main() {
-    println("Hello from the server!")
-
     r := mux.NewRouter()
 
     tasks := task.Tasks{}
@@ -31,7 +29,7 @@ func main() {
         
         err := json.NewDecoder(r.Body).Decode(&taskJson)
         if err != nil {
-            println(err.Error())
+            fmt.Println(err.Error())
             w.WriteHeader(http.StatusBadRequest)
             return
         } 
@@ -51,10 +49,19 @@ func main() {
         template := index(tasks.Tasks())
         err := template.Render(context.Background(), w)
         if err != nil {
-            println(err.Error())
+            fmt.Println(err.Error())
         }
     })
-    http.ListenAndServe(":8080", r)
+
+    fmt.Println("Starting HTTP server on port 8080")
+
+    err := http.ListenAndServe(":8080", r)
+
+    if err != nil {
+        fmt.Println("Error starting server..:")
+        fmt.Println(err.Error())
+        return
+    }
 
     quit := make(chan bool)
 
