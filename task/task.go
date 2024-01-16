@@ -23,12 +23,12 @@ func (list *Tasks) Add(task Task) Task {
 }
 
 func (list *Tasks) Tasks() TaskIterator {
-    tasks := list.tasks[0:len(list.tasks)]
+    length := len(list.tasks)
     return TaskIterator{
-        currUncompleted: len(list.tasks),
-        currCompleted: len(list.tasks),
-        tasks: tasks,
-        length: len(list.tasks),
+        currUncompleted: length,
+        currCompleted: length,
+        tasks: list.tasks[0:length],
+        length: length,
     }
 }
 
