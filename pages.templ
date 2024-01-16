@@ -1,8 +1,24 @@
 package main
 
+import "strconv"
+
 import (
         "wouterd/playground/htmx/task"
        )
+
+templ task_list_item(task *task.Task) {
+    <li><input type="checkbox" hx-patch={ "/tasks/" + strconv.Itoa(task.Id) } name="completed" hx-target="#tasks"
+    if task.Completed {
+        checked
+    }
+    />{ task.Name }</li>
+}
+
+templ tasks_list(tasks task.TaskIterator) {
+    for tasks.HasNext() {
+        @task_list_item(tasks.Next())
+    }
+}
 
 templ index(tasks task.TaskIterator) {
     <html>
@@ -17,9 +33,7 @@ templ index(tasks task.TaskIterator) {
                 <input type="text" name="task"/>
             </form>
             <ul id="tasks">
-            for tasks.HasNext() {
-                <li>{ tasks.Next().Name }</li>
-            }
+            @tasks_list(tasks)
             </ul>
         </body>
     </html>
