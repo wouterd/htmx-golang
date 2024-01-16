@@ -1,0 +1,26 @@
+package main
+
+import (
+        "wouterd/playground/htmx/task"
+       )
+
+templ index(tasks task.TaskIterator) {
+    <html>
+        <head>
+            <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+            <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+        </head>
+        <body>
+            <h1>Tasks!</h1>
+            <p>Let's manage some tasks!</p>
+            <form hx-post="/tasks" hx-ext="json-enc" hx-target="#tasks" hx-swap="afterbegin">
+                <input type="text" name="task"/>
+            </form>
+            <ul id="tasks">
+            for tasks.HasNext() {
+                <li>{ tasks.Next().Name }</li>
+            }
+            </ul>
+        </body>
+    </html>
+}
