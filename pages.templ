@@ -7,11 +7,17 @@ import (
        )
 
 templ task_list_item(task *task.Task) {
-    <li><input type="checkbox" hx-patch={ "/tasks/" + strconv.Itoa(task.Id) } name="completed" hx-target="#tasks"
+    <form>
+    <p>
+        <label>
+        <input type="checkbox" hx-patch={ "/tasks/" + strconv.Itoa(task.Id) } name="completed" hx-target="#tasks"
     if task.Completed {
         checked
     }
-    />{ task.Name }</li>
+    /><span>{ task.Name }</span>
+        </label>
+    </p>
+    </form>
 }
 
 templ tasks_list(tasks task.TaskIterator) {
@@ -21,20 +27,36 @@ templ tasks_list(tasks task.TaskIterator) {
 }
 
 templ index(tasks task.TaskIterator) {
+    <!DOCTYPE html>
     <html>
         <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+            <!--Import Google Icon Font-->
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+            <!-- Compiled and minified CSS -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+
             <script src="https://unpkg.com/htmx.org@1.9.10"></script>
             <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
         </head>
         <body>
-            <h1>Tasks!</h1>
-            <p>Let's manage some tasks!</p>
-            <form hx-post="/tasks" hx-ext="json-enc" hx-target="#tasks" hx-swap="afterbegin">
-                <input type="text" name="task"/>
-            </form>
-            <ul id="tasks">
-            @tasks_list(tasks)
-            </ul>
+            <div class="row">
+                <h1>Tasks!</h1>
+                <p>Let's manage some tasks!</p>
+                <form hx-post="/tasks" hx-ext="json-enc" hx-target="#tasks" hx-swap="afterbegin" class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input type="text" name="task"/>
+                            <label for="task">New Task:</label>
+                        </div>
+                    </div>
+                </form>
+                <div id="tasks">
+                    @tasks_list(tasks)
+                </div>
+            </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         </body>
     </html>
 }
