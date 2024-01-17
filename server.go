@@ -134,7 +134,6 @@ func taskUpdateFormHandler(tasks *task.Tasks) http.HandlerFunc {
 }
 
 func main() {
-    fmt.Println("Big F")
     r := mux.NewRouter()
 
     tasks := task.Tasks{}
